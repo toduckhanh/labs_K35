@@ -1,0 +1,43 @@
+# source code ----
+source(file = "R/kernel_reg.R")
+
+# mcycle data ----
+data(mcycle, package = "MASS")
+head(mcycle)
+
+u1 <- kernel_reg(x = mcycle$times, y = mcycle$accel, x_eval = 30, h = 0.5)
+
+plot(x = mcycle$times, y = mcycle$accel, pch = 16)
+points(x = 30, y = u1, col = "blue")
+
+range(mcycle$times)
+x_plot <- seq(0, 60, length.out = 201)
+y_hat <- kernel_reg(x = mcycle$times, y = mcycle$accel, x_eval = x_plot,
+                    h = 0.5)
+
+plot(x = mcycle$times, y = mcycle$accel, pch = 16, cex = 0.7)
+lines(x = x_plot, y = y_hat, col = "blue")
+
+## CV ----
+cv1_h(x = mcycle$times, y = mcycle$accel, h = 0.5)
+cv1_h(x = mcycle$times, y = mcycle$accel, h = 1.5)
+cv1_h(x = mcycle$times, y = mcycle$accel, h = 2.5)
+
+h_plot <- seq(0.1, 4, length.out = 41)
+cv1_est <- cv1_h(x = mcycle$times, y = mcycle$accel, h = h_plot)
+
+plot(x = h_plot, y = cv1_est, type = "b", pch = 16)
+
+system.time({
+  cv1_est <- cv1_h(x = mcycle$times, y = mcycle$accel, h = h_plot)
+})
+h_plot[which.min(cv1_est)]
+
+system.time({
+  cv2_est <- cv2_h(x = mcycle$times, y = mcycle$accel, h = h_plot)
+})
+h_plot[which.min(cv2_est)]
+all.equal(cv1_est[-(1:2)], cv2_est[-(1:2)])
+
+
+
