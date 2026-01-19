@@ -1,9 +1,9 @@
-# Gaussian kernel function ----
-kernel_gauss <- function(u) exp(-u^2/2)/sqrt(2*pi)
+# load kernel functions ----
+source(file = "R/kernel_functions.R")
 
 # Kernel regression ----
 kernel_reg <- function(x, y, x_eval, h, kernel = "gauss") {
-  wi <- kernel_gauss((x_eval - x)/h)
+  wi <- kernel_gaus((x_eval - x)/h)
   wi_sum <- sum(wi)
   w <- wi/wi_sum
   y_hat <- sum(y * w)
@@ -34,12 +34,11 @@ cv2_h <- function(x, y, h, kernel = "gauss"){
   n <- length(x)
   wi0 <- numeric(n)
   for(i in 1:n){
-    wi0[i] <- sum(kernel_gauss((x[i] - x)/h))
+    wi0[i] <- sum(kernel_gaus((x[i] - x)/h))
   }
-  w0 <- kernel_gauss(0)/wi0
+  w0 <- kernel_gaus(0)/wi0
   m0 <- kernel_reg(x = x, y = y, x_eval = x, h = h, kernel = kernel)
   cv <- mean(((y - m0)/(1 - w0))^2)
-  print(1 - w0)
   return(cv)
 }
 
