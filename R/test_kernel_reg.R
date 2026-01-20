@@ -42,10 +42,18 @@ system.time({
 h_plot[which.min(cv2_est)]
 all.equal(cv1_est[-(1:2)], cv2_est[-(1:2)])
 
+## GCV ----
+
+system.time({
+  gcv_est <- gcv_h(x = mcycle$times, y = mcycle$accel, h = h_plot)
+})
+h_plot[which.min(gcv_est)]
+
 ## benchmark in 100 times
 res_banchmark <- microbenchmark::microbenchmark(
   cv1 = cv1_h(x = mcycle$times, y = mcycle$accel, h = h_plot),
-  cv2 = cv2_h(x = mcycle$times, y = mcycle$accel, h = h_plot)
+  cv2 = cv2_h(x = mcycle$times, y = mcycle$accel, h = h_plot),
+  gcv = gcv_h(x = mcycle$times, y = mcycle$accel, h = h_plot)
 )
 
 ggplot2::autoplot(res_banchmark)
