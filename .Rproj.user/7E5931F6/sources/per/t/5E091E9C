@@ -3,7 +3,7 @@
     "path": "C:/Users/duckh/Dropbox/course_Computational_Stats_HCMUS/labs/labs_K35/R/kernel_reg.R",
     "project_path": "R/kernel_reg.R",
     "type": "r_source",
-    "hash": "71325832",
+    "hash": "243401121",
     "contents": "",
     "dirty": false,
     "created": 1768706021025.0,
@@ -18,11 +18,11 @@
         "docOutlineVisible": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1768716765,
+    "lastKnownWriteTime": 1768887296,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1768716765952,
+    "last_content_update": 1768887296,
     "read_only": false,
     "read_only_alternatives": []
 }
