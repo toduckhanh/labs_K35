@@ -59,5 +59,31 @@ test1(fun = mean, x = x)
 test1(fun = median, x = x)
 
 my_ci_boot(x_bts, fun = mean)
+my_ci_boot(x_bts, data = x, fun = mean, ci_type = "bca")
+
+# claridge.csv ----
+claridge <- read.csv(file = "data/claridge.csv")
+
+cor(claridge, method = "pearson")[1, 2]
+cor(x = claridge$dnan, y = claridge$hand, method = "pearson")
+
+plot(x = claridge$dnan, y = claridge$hand, pch = 16)
+
+claridge_bts <- my_boot(data = claridge, R = 500, seed = 28)
+
+my_cor <- function(data, type = "pearson"){
+  cor(data, method = type)[1, 2]
+}
+my_cor(data = claridge)
+
+out_cor_1 <- my_ci_boot(boot_sample = claridge_bts, data = claridge,
+                        fun = my_cor)
+hist(out_cor_1$est_boot, xlim = c(-0.5, 1))
+
+my_ci_boot(boot_sample = claridge_bts, data = claridge, fun = my_cor,
+           type = "kendall")
+
+out_cor_2 <- my_ci_boot(boot_sample = claridge_bts, data = claridge, 
+                        fun = my_cor, ci_type = "bca")
 
 
